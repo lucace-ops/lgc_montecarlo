@@ -20,6 +20,12 @@ st.markdown("""
 .stApp { background: #f6f7f9; }
 section[data-testid="stSidebar"] { background: #101820; }
 section[data-testid="stSidebar"] * { color: #f5f5f5; }
+section[data-testid="stSidebar"] { background: #101820; }
+section[data-testid="stSidebar"] * { color: #f5f5f5; }
+
+section[data-testid="stSidebar"] input {
+    color: #101820 !important;
+}
 .lg-header { background: #101820; color: white; padding: 1.2rem 1.5rem; border-radius: 12px;
   border-bottom: 4px solid #D5B36A; margin-bottom: 1rem; }
 .lg-kicker { color: #D5B36A; letter-spacing: .22em; font-size: .76rem; font-weight: 700; }

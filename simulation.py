@@ -154,7 +154,7 @@ def simulate_portfolio(
     assets = [a for a in assets if a["ticker"] in available]
     weights = np.asarray(weights_pct[:len(tickers)], dtype=float)
     # Re-align weights in case a ticker was omitted from downloaded data.
-    original_map = {a["ticker"]: float(w) for a, w in zip(tickers, weights_pct)}
+    original_map = {ticker: float(w) for ticker, w in zip(tickers, weights_pct)}
     weights = np.array([original_map[a["ticker"]] for a in assets], dtype=float)
     if np.any(weights < 0) or weights.sum() <= 0:
         raise ValueError("I pesi devono essere non negativi e avere somma positiva.")

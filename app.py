@@ -1,4 +1,5 @@
 from __future__ import annotations
+import hmac
 import json
 from pathlib import Path
 import numpy as np
@@ -13,7 +14,38 @@ from report import build_pdf
 
 APP_DIR = Path(__file__).parent
 st.set_page_config(page_title="L & G Consulting | Portfolio Lab", page_icon="◇", layout="wide")
-st.markdown('''<style>.stApp{background:#f6f7f9}section[data-testid="stSidebar"]{background:#101820}section[data-testid="stSidebar"] *{color:#f5f5f5}section[data-testid="stSidebar"] input{color:#101820!important}.lg-header{background:#101820;color:white;padding:1.2rem 1.5rem;border-radius:12px;border-bottom:4px solid #D5B36A;margin-bottom:1rem}.lg-kicker{color:#D5B36A;letter-spacing:.22em;font-size:.76rem;font-weight:700}</style>''', unsafe_allow_html=True)
+st.markdown('''<style>.stApp{background:#f6f7f9}section[data-testid="stSidebar"]{background:#101820}section[data-testid="stSidebar"] *{color:#f5f5f5}section[data-testid="stSidebar"] input{color:#101820!important}.lg-header{background:#101820;color:white;padding:1.2rem 1.5rem;border-radius:12px;border-bottom:4px solid #D5B36A;margin-bottom:1rem}.lg-kicker{color:#D5B36A;letter-spacing:.22em;font-size:.76rem;font-weight:700}.login-box{max-width:460px;margin:8vh auto 0 auto;padding:2rem;border:1px solid #d9dde2;border-radius:16px;background:white;box-shadow:0 8px 30px rgba(16,24,32,.08)}</style>''', unsafe_allow_html=True)
+
+
+def require_authentication():
+    if st.session_state.get("authenticated", False):
+        return
+    try:
+        expected = str(st.secrets["APP_PASSWORD"])
+    except Exception:
+        st.markdown('<div class="login-box"><h2>L &amp; G Consulting</h2><p>Portfolio Monte Carlo Lab</p></div>', unsafe_allow_html=True)
+        st.error("Password non configurata. Aggiungi APP_PASSWORD nei Secrets dell'app Streamlit.")
+        st.code('APP_PASSWORD = "la-tua-password"', language="toml")
+        st.stop()
+    left, center, right = st.columns([1, 1.2, 1])
+    with center:
+        if (APP_DIR/"logo.svg").exists():
+            st.image(str(APP_DIR/"logo.svg"), width=110)
+        st.markdown("## L & G Consulting")
+        st.caption("Portfolio Monte Carlo Lab · Accesso riservato")
+        password = st.text_input("Password", type="password", key="login_password", placeholder="Inserisci la password")
+        if st.button("Accedi", type="primary", use_container_width=True):
+            if hmac.compare_digest(password, expected):
+                st.session_state.authenticated = True
+                st.session_state.pop("login_password", None)
+                st.rerun()
+            else:
+                st.error("Password non corretta.")
+    st.stop()
+
+
+require_authentication()
+
 c0,c1=st.columns([1,7])
 with c0:
     if (APP_DIR/"logo.svg").exists(): st.image(str(APP_DIR/"logo.svg"),width=90)
@@ -30,6 +62,10 @@ def cached_common_history(tickers:tuple[str,...],start:str): return load_monthly
 def cached_series(ticker:str): return load_monthly_eur_return_series(ticker,start="1970-01-01")
 
 with st.sidebar:
+    if st.button("🔒 Esci", use_container_width=True):
+        st.session_state.authenticated=False
+        st.session_state.pop("login_password",None)
+        st.rerun()
     st.markdown("## Modalità")
     mode=st.radio("Livello di controllo",["Basic","Avanzata"],horizontal=True,label_visibility="collapsed"); advanced=mode=="Avanzata"
     st.caption("Basic: simulazione rapida. Avanzata: costi, tasse, ribilanciamento, stress, coperture e analisi decisionali.")

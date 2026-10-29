@@ -49,7 +49,7 @@ def cached_series(ticker: str):
 
 with st.sidebar:
     st.markdown("## Parametri base")
-    initial=st.number_input("Capitale iniziale (€)",1000.,100000000.,float(sim.get("initial_value",100000)),5000.)
+    initial=st.number_input("Capitale iniziale (€)",100.,100000000.,float(sim.get("initial_value",100000)),5000.)
     contribution=st.number_input("Versamento PAC (€)",0.,1000000.,float(sim.get("contribution",800)),50.)
     contribution_frequency=st.selectbox("Frequenza PAC",["Mensile","Annuale"],index=0 if sim.get("contribution_frequency","Mensile")=="Mensile" else 1)
     years=st.slider("Orizzonte (anni)",1,40,int(sim.get("years",10)))

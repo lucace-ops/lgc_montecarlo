@@ -84,7 +84,7 @@ with st.sidebar:
     confidence = st.select_slider("Livello di confidenza VaR", options=[0.90, 0.95, 0.975, 0.99],
                                   value=float(sim["confidence_level"]))
     inflation_pct = st.slider("Inflazione annua ipotizzata (%)", 0.0, 8.0, float(sim["inflation_rate"]) * 100, 0.5)
-inflation = inflation_pct / 100
+inflation = inflation_pct / 100    
     rebalance = st.selectbox("Ribilanciamento", ["Mai", "Mensile", "Trimestrale", "Annuale"],
                              index=["Mai", "Mensile", "Trimestrale", "Annuale"].index(sim["rebalance_frequency"])
                              if sim["rebalance_frequency"] in ["Mai", "Mensile", "Trimestrale", "Annuale"] else 3)

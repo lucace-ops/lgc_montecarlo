@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "simulation": {
+    "initial_value": 100000,
+    "years": 10,
+    "simulations": 5000,
+    "history_years": 10,
+    "confidence_level": 0.95,
+    "inflation_rate": 0.02,
+    "rebalance_frequency": "Annuale",
+    "include_black_swans": true,
+    "include_put_hedge": false,
+    "put_annual_cost_pct": 0.75,
+    "put_trigger_drawdown_pct": 15.0,
+    "random_seed": 42
+  },
+  "portfolios": [
+    {
+      "name": "Portafoglio A - Bilanciato",
+      "assets": [
+        {
+          "ticker": "VWCE.DE",
+          "weight": 60.0,
+          "asset_class": "Azionario globale"
+        },
+        {
+          "ticker": "AGGH.L",
+          "weight": 40.0,
+          "asset_class": "Obbligazionario globale"
+        }
+      ]
+    },
+    {
+      "name": "Portafoglio B - Prudente",
+      "assets": [
+        {
+          "ticker": "VWCE.DE",
+          "weight": 35.0,
+          "asset_class": "Azionario globale"
+        },
+        {
+          "ticker": "AGGH.L",
+          "weight": 55.0,
+          "asset_class": "Obbligazionario globale"
+        },
+        {
+          "ticker": "SGLD.MI",
+          "weight": 10.0,
+          "asset_class": "Oro"
+        }
+      ]
+    },
+    {
+      "name": "Portafoglio C - Crescita",
+      "assets": [
+        {
+          "ticker": "VWCE.DE",
+          "weight": 80.0,
+          "asset_class": "Azionario globale"
+        },
+        {
+          "ticker": "AGGH.L",
+          "weight": 10.0,
+          "asset_class": "Obbligazionario globale"
+        },
+        {
+          "ticker": "SGLD.MI",
+          "weight": 10.0,
+          "asset_class": "Oro"
+        }
+      ]
+    }
+  ]
+}

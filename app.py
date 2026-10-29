@@ -83,7 +83,7 @@ with st.sidebar:
     history_years = st.slider("Anni di dati storici", 2, 20, int(sim["history_years"]))
     confidence = st.select_slider("Livello di confidenza VaR", options=[0.90, 0.95, 0.975, 0.99],
                                   value=float(sim["confidence_level"]))
-        inflation_pct = st.slider(
+    inflation_pct = st.slider(
         "Inflazione annua ipotizzata (%)",
         min_value=0.0,
         max_value=8.0,
